@@ -3,7 +3,7 @@ import { dark } from "@clerk/themes";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
-import Navbar from "@/components/Navbar";
+import AppWrapper from "@/components/AppWrapper";
 import ReduxProvider from "@/provider/ReduxProvider";
 import "./globals.css";
 
@@ -28,8 +28,8 @@ export default function RootLayout({
       <html lang="en" className="">
         <body className={inter.className}>
           <ReduxProvider>
-            <Navbar />
-            {children}
+            {/* <Navbar /> */}
+            <AppWrapper>{children}</AppWrapper>
           </ReduxProvider>
         </body>
       </html>
