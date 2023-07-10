@@ -3,6 +3,7 @@
 import SongCard from "@/components/SongCard";
 import { useAppSelector } from "@/hooks/reduxHooks";
 import { useGetSongsBySearchQuery } from "@/redux/services/getData";
+import { Track } from "@/types/song";
 import { useParams } from "next/navigation";
 
 // import { Error, Loader, SongCard } from "../components";
@@ -13,7 +14,7 @@ const Search = () => {
   const { activeSong, isPlaying } = useAppSelector((state) => state.player);
   const { data, isFetching, error } = useGetSongsBySearchQuery(searchTerm);
 
-  const songs = data?.tracks?.hits.map((song: any) => song.track);
+  const songs: Track[] = data?.tracks?.hits.map((song: any) => song.track);
 
   if (isFetching) return <h1>Loading.....</h1>;
 
@@ -26,16 +27,18 @@ const Search = () => {
       </h2>
 
       <div className="flex flex-wrap sm:justify-start justify-center gap-8">
-        {songs.map((song, i) => (
-          <SongCard
-            key={song.key}
-            song={song}
-            isPlaying={isPlaying}
-            activeSong={activeSong}
-            data={data}
-            i={i}
-          />
-        ))}
+        {
+          songs.map((song, i) => (
+            <SongCard
+              key={song.key}
+              song={song}
+              isPlaying={isPlaying}
+              activeSong={activeSong}
+              data={data}
+              i={i}
+            />
+          )) as any
+        }
       </div>
     </div>
   );
