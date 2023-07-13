@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 
+import { Song } from "@/types/types";
 import { Home, Search } from "lucide-react";
 import { usePathname } from "next/navigation";
 import Box from "./Box";
@@ -10,9 +11,10 @@ import SideBarItem from "./SideBarItem";
 
 interface SideBarProps {
   children: React.ReactNode;
+  songs: Song[];
 }
 
-const Sidebar: React.FC<SideBarProps> = ({ children }) => {
+const Sidebar: React.FC<SideBarProps> = ({ children, songs }) => {
   const pathname = usePathname();
 
   const routes = useMemo(
@@ -44,7 +46,7 @@ const Sidebar: React.FC<SideBarProps> = ({ children }) => {
           </div>
         </Box>
         <Box className="overflow-y-auto h-full">
-          <Library />
+          <Library songs={songs} />
         </Box>
       </div>
       <main className="h-full flex-1 overflow-y-auto md:py-2">{children}</main>

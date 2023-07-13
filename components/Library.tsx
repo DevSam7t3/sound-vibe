@@ -1,12 +1,14 @@
 "use client";
 
 import supabase from "@/lib/db";
+import { Song } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
 import { ListMusic, Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import uniqid from "uniqid";
+import MediaItem from "./MediaItem";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -21,9 +23,11 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useToast } from "./ui/use-toast";
 
-type Props = {};
+interface LibraryProps {
+  songs: Song[];
+}
 
-const Library = (props: Props) => {
+const Library: React.FC<LibraryProps> = ({ songs }) => {
   const router = useRouter();
   const { toast } = useToast();
   const { isSignedIn, user, isLoaded } = useUser();
@@ -210,8 +214,9 @@ const Library = (props: Props) => {
         </Dialog>
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
-        {/* TODO: List of Songs */}
-        List of Songs
+        {songs.map((item) => (
+          <MediaItem onClick={() => {}} key={item.id} data={item} />
+        ))}
       </div>
     </div>
   );
