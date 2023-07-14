@@ -1,16 +1,19 @@
-import Link from "next/link";
+"use cleint";
+
 import React from "react";
 
 import { useAppDispatch } from "@/hooks/reduxHooks";
+import useLoadImage from "@/hooks/useLoadImage";
+import useLoadSongUrl from "@/hooks/useLoadSongUrl";
 import { playPause, setActiveSong } from "@/redux/features/playerSlice";
-import { RootObject, Track } from "@/types/song";
+import { Song } from "@/types/types";
 import PlayPause from "./PlayPause";
 
 interface SongCardProps {
-  song: Track;
+  song: Song;
   isPlaying: boolean;
   activeSong: any;
-  data: RootObject;
+  data: Song[];
   i: number;
 }
 
@@ -23,12 +26,18 @@ const SongCard: React.FC<SongCardProps> = ({
 }) => {
   const dispatch = useAppDispatch();
 
+  const songUrl = useLoadSongUrl(song);
+
+  const modifiedSong = { ...song, songUrl };
+
+  const imagePath = useLoadImage(song);
+
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
 
   const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
+    dispatch(setActiveSong({ modifiedSong, data, i }));
     dispatch(playPause(true));
   };
 
@@ -52,26 +61,16 @@ const SongCard: React.FC<SongCardProps> = ({
         </div>
         <img
           alt="song_img"
-          src={song.images?.coverart}
+          src={imagePath || ""}
           className="w-full h-full rounded-lg"
         />
       </div>
 
       <div className="mt-4 flex flex-col">
         <p className="font-semibold text-lg text-white truncate">
-          <Link href={`/songs/${song?.key}`}>{song.title}</Link>
+          {song.title}
         </p>
-        <p className="text-sm truncate text-gray-300 mt-1">
-          <Link
-            href={
-              song.artists
-                ? `/artists/${song?.artists[0]?.adamid}`
-                : "/top-artists"
-            }
-          >
-            {song.subtitle}
-          </Link>
-        </p>
+        <p className="text-sm truncate text-gray-300 mt-1">{song.author}</p>
       </div>
     </div>
   );

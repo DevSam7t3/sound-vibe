@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 
 import getSongsByUserId from "@/actions/getSongsByUserId";
+import MusicPlayer from "@/components/MusicPlayer";
 import Sidebar from "@/components/Sidebar";
 import ReduxProvider from "@/provider/ReduxProvider";
 import "./globals.css";
@@ -36,6 +37,7 @@ export default async function RootLayout({
           <ReduxProvider>
             {/* <Navbar /> */}
             <Sidebar songs={userSongs}>{children}</Sidebar>
+            <MusicPlayer />
             <Toaster />
           </ReduxProvider>
         </body>

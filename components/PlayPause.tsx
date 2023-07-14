@@ -1,9 +1,9 @@
-import { Track } from "@/types/song";
+import { Song } from "@/types/types";
 import { PauseCircle, PlayCircle } from "lucide-react";
 import React from "react";
 
 interface PlayPauseProps {
-  song: Track;
+  song: Song;
   isPlaying: boolean;
   activeSong: any;
   handlePause: () => void;

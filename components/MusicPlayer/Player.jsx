@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/media-has-caption */
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const Player = ({
   activeSong,
@@ -32,7 +32,7 @@ const Player = ({
 
   return (
     <audio
-      src={activeSong?.hub?.actions[1]?.uri}
+      src={activeSong?.songUrl}
       ref={ref}
       loop={repeat}
       onEnded={onEnded}

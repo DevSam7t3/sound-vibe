@@ -1,15 +1,19 @@
 "use client";
 
 // import useOnPlay from "@/hooks/useOnPlay";
+import { useAppDispatch, useAppSelector } from "@/hooks/reduxHooks";
 import { Song } from "@/types/types";
-import SongItem from "./SongItem";
+import SongCard from "./SongCard";
 
 interface PageContentProps {
   songs: Song[];
 }
 
 const PageContent: React.FC<PageContentProps> = ({ songs }) => {
-  //   const onPlay = useOnPlay(songs);
+  const dispatch = useAppDispatch();
+
+  const { genreListId } = useAppSelector((state) => state.player);
+  const { activeSong, isPlaying } = useAppSelector((state) => state.player);
 
   if (songs.length === 0) {
     return <div className="mt-4 text-neutral-400">No songs available.</div>;
@@ -29,8 +33,15 @@ const PageContent: React.FC<PageContentProps> = ({ songs }) => {
         mt-4
       "
     >
-      {songs.map((item) => (
-        <SongItem onClick={() => {}} key={item.id} data={item} />
+      {songs.map((item, i) => (
+        <SongCard
+          key={item.id}
+          data={songs}
+          isPlaying={isPlaying}
+          activeSong={activeSong}
+          song={item}
+          i={i}
+        />
       ))}
     </div>
   );
