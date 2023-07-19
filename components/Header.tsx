@@ -5,6 +5,7 @@ import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, ChevronRight, Home, Search } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import UploadModal from "./UploadModal";
 import { Button } from "./ui/button";
 
 type Props = {
@@ -14,13 +15,10 @@ type Props = {
 
 const Header = ({ children, className }: Props) => {
   const [canGoBack, setCanGoBack] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const router = useRouter();
   const pathname = usePathname();
-
-  const handleClick = () => {
-    // TODO: handle logout
-  };
 
   useEffect(() => {
     if (pathname !== "/") {
@@ -59,6 +57,7 @@ const Header = ({ children, className }: Props) => {
             variant={"ghost"}
             size={"icon"}
             className="p-2 bg-white flex items-center jc hover:opacity-75 transition"
+            onClick={() => router.push("/")}
           >
             <Home className="text-black " size={20} />
           </Button>
@@ -66,8 +65,16 @@ const Header = ({ children, className }: Props) => {
             variant={"ghost"}
             size={"icon"}
             className="p-2 bg-white flex items-center jc hover:opacity-75 transition"
+            onClick={() => router.push("/search")}
           >
             <Search className="text-black " size={20} />
+          </Button>
+          <Button
+            variant={"ghost"}
+            size={"icon"}
+            className="p-2 bg-white flex items-center jc hover:opacity-75 transition"
+          >
+            <UploadModal loading={loading} setLoading={setLoading} />
           </Button>
         </div>
         <div className="flex justify-between items-center gap-x-4">

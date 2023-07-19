@@ -26,7 +26,7 @@ interface PlayerContentProps {
 
 const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
   const player = usePlayer();
-  const [volume, setVolume] = useState(1);
+  const [volume, setVolume] = useState(0.3);
   const [isPlaying, setIsPlaying] = useState(false);
 
   const Icon = isPlaying ? Pause : Play;
@@ -102,16 +102,17 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
       <div className="flex w-full justify-start">
         <div className="flex items-center gap-x-4">
           <MediaItem data={song} />
-          <div className="hidden md:block">
+          <div className="hidden sm:block">
             <LikeButton songId={song.id} />
           </div>
         </div>
       </div>
 
+      {/* player action buttons for mobile */}
       <div
         className="
             flex 
-            md:hidden 
+            sm:hidden 
             gap-x-2
             w-full 
             justify-end 
@@ -155,12 +156,12 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             "
         />
       </div>
-
+      {/* player action buttons for desktop */}
       <div
         className="
         hidden
             h-full
-            md:flex 
+            sm:flex 
             justify-center 
             items-center 
             w-full 
@@ -205,7 +206,7 @@ const PlayerContent: React.FC<PlayerContentProps> = ({ song, songUrl }) => {
             "
         />
       </div>
-
+      {/* volume */}
       <div className="hidden md:flex w-full justify-end pr-2">
         <div className="flex items-center gap-x-2 w-[120px]">
           <VolumeIcon
