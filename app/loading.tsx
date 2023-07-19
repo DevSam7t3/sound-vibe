@@ -8,7 +8,7 @@ export default function Loading() {
   // Or a custom loading skeleton component
   return (
     <div className="flex justify-center items-center">
-      <Image width={500} height={500} src={loader} alt="Loading" />
+      <Image width={200} height={200} src={loader} alt="Loading" />
     </div>
   );
 }
