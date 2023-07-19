@@ -5,43 +5,19 @@ import Image from "next/image";
 import useLoadImage from "@/hooks/useLoadImage";
 import { Song } from "@/types/types";
 
-import { useAppDispatch } from "@/hooks/reduxHooks";
-import { playPause, setActiveSong } from "@/redux/features/playerSlice";
 import PlayButton from "./PlayButton";
 
 interface SongItemProps {
-  data: Song[];
-  song: Song;
-  i: number;
+  data: Song;
   onClick: (id: string) => void;
-  isPlaying: boolean;
-  activeSong: any;
 }
 
-const SongItem: React.FC<SongItemProps> = ({
-  data,
-  song,
-  onClick,
-  i,
-  isPlaying,
-  activeSong,
-}) => {
-  const imagePath = useLoadImage(song);
-
-  const dispatch = useAppDispatch();
-
-  const handlePauseClick = () => {
-    dispatch(playPause(false));
-  };
-
-  const handlePlayClick = () => {
-    dispatch(setActiveSong({ song, data, i }));
-    dispatch(playPause(true));
-  };
+const SongItem: React.FC<SongItemProps> = ({ data, onClick }) => {
+  const imagePath = useLoadImage(data);
 
   return (
     <div
-      onClick={() => onClick(song.id)}
+      onClick={() => onClick(data.id)}
       className="
         relative 
         group 
@@ -77,7 +53,7 @@ const SongItem: React.FC<SongItemProps> = ({
         />
       </div>
       <div className="flex flex-col items-start w-full pt-4 gap-y-1">
-        <p className="font-semibold truncate w-full">{song.title}</p>
+        <p className="font-semibold truncate w-full">{data.title}</p>
         <p
           className="
             text-neutral-400 
@@ -87,7 +63,7 @@ const SongItem: React.FC<SongItemProps> = ({
             truncate
           "
         >
-          By {song.author}
+          By {data.author}
         </p>
       </div>
       <div
@@ -97,7 +73,7 @@ const SongItem: React.FC<SongItemProps> = ({
           right-5
         "
       >
-        <PlayButton />
+        <PlayButton id={data.id} />
       </div>
     </div>
   );

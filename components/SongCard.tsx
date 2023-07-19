@@ -27,16 +27,14 @@ const SongCard: React.FC<SongCardProps> = ({
   const dispatch = useAppDispatch();
 
   const songUrl = useLoadSongUrl(song);
-
-  const modifiedSong = { ...song, songUrl };
-
-  const imagePath = useLoadImage(song);
+  const imageUrl = useLoadImage(song);
 
   const handlePauseClick = () => {
     dispatch(playPause(false));
   };
 
   const handlePlayClick = () => {
+    const modifiedSong = { ...song, imageUrl, songUrl };
     dispatch(setActiveSong({ modifiedSong, data, i }));
     dispatch(playPause(true));
   };
@@ -61,7 +59,7 @@ const SongCard: React.FC<SongCardProps> = ({
         </div>
         <img
           alt="song_img"
-          src={imagePath || ""}
+          src={imageUrl || ""}
           className="w-full h-full rounded-lg"
         />
       </div>

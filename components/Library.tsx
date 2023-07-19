@@ -1,5 +1,6 @@
 "use client";
 
+import useOnPlay from "@/hooks/useOnPlay";
 import supabase from "@/lib/db";
 import { Song } from "@/types/types";
 import { useUser } from "@clerk/nextjs";
@@ -29,6 +30,7 @@ interface LibraryProps {
 
 const Library: React.FC<LibraryProps> = ({ songs }) => {
   const router = useRouter();
+  const onPlay = useOnPlay(songs);
   const { toast } = useToast();
   const { isSignedIn, user, isLoaded } = useUser();
   const [loading, setLoading] = useState<boolean>(false);
@@ -215,7 +217,11 @@ const Library: React.FC<LibraryProps> = ({ songs }) => {
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
         {songs.map((item) => (
-          <MediaItem onClick={() => {}} key={item.id} data={item} />
+          <MediaItem
+            onClick={(id: string) => onPlay(id)}
+            key={item.id}
+            data={item}
+          />
         ))}
       </div>
     </div>

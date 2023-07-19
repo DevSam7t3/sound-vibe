@@ -28,11 +28,12 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
       onClick={handleClick}
       className="
         flex 
-        items-center 
+        items-center
+        w-40 
         gap-x-3 
         cursor-pointer 
         hover:bg-neutral-800/50 
-        w-full 
+        md:w-full 
         p-2 
         rounded-md
       "
@@ -40,9 +41,11 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
       <div
         className="
           relative 
-          rounded-md 
-          min-h-[48px] 
-          min-w-[48px] 
+          rounded-md
+          min-h-[25px] 
+          min-w-[25px]
+          md:min-h-[48px] 
+          md:min-w-[48px] 
           overflow-hidden
         "
       >

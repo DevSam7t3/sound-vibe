@@ -5,9 +5,8 @@ import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 
 import getSongsByUserId from "@/actions/getSongsByUserId";
-import MusicPlayer from "@/components/MusicPlayer";
+import Player from "@/components/Player";
 import Sidebar from "@/components/Sidebar";
-import ReduxProvider from "@/provider/ReduxProvider";
 import "./globals.css";
 
 const figtree = Figtree({ subsets: ["latin"] });
@@ -34,12 +33,12 @@ export default async function RootLayout({
     >
       <html lang="en" className="dark">
         <body className={figtree.className}>
-          <ReduxProvider>
-            {/* <Navbar /> */}
-            <Sidebar songs={userSongs}>{children}</Sidebar>
-            <MusicPlayer />
-            <Toaster />
-          </ReduxProvider>
+          {/* <Navbar /> */}
+          <Sidebar songs={userSongs}>{children}</Sidebar>
+
+          <Player />
+
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>

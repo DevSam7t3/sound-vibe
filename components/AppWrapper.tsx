@@ -1,6 +1,5 @@
 "use client";
 
-import { useAppSelector } from "@/hooks/reduxHooks";
 import React from "react";
 import MusicPlayer from "./MusicPlayer";
 
@@ -9,8 +8,7 @@ interface AppWrapperProps {
 }
 
 const AppWrapper: React.FC<AppWrapperProps> = ({ children }) => {
-  const { activeSong } = useAppSelector((state) => state.player);
-
+  const activeSong = {};
   return (
     <div className="relative flex">
       {/* <Sidebar /> */}

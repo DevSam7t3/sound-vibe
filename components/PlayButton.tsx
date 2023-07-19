@@ -1,6 +1,8 @@
-import { Play } from "lucide-react";
+import usePlayer from "@/hooks/usePlayer";
+import { Pause, Play } from "lucide-react";
 
-const PlayButton = () => {
+const PlayButton = ({ id }: { id?: string }) => {
+  const player = usePlayer();
   return (
     <button
       className="
@@ -20,7 +22,11 @@ const PlayButton = () => {
         hover:scale-110
       "
     >
-      <Play className="text-black fill-black" />
+      {player.activeId === id ? (
+        <Pause className="text-black fill-black" />
+      ) : (
+        <Play className="text-black fill-black" />
+      )}
     </button>
   );
 };
