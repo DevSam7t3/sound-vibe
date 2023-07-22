@@ -16,6 +16,8 @@ export const revalidate = 0;
 export const metadata: Metadata = {
   title: "Sound Vibe",
   description: "Listen to a variety of musics for free",
+  keywords: ["music", "sound vibe", "song"],
+  authors: [{ name: "Samiullah", url: "https://devsam.site/" }],
 };
 
 export default async function RootLayout({

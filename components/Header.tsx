@@ -1,8 +1,14 @@
 "use client";
 
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { cn } from "@/lib/utils";
 import { UserButton } from "@clerk/nextjs";
 import { ChevronLeft, ChevronRight, Home, Search } from "lucide-react";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import UploadModal from "./UploadModal";
@@ -77,8 +83,46 @@ const Header = ({ children, className }: Props) => {
             <UploadModal />
           </Button>
         </div>
-        <div className="flex justify-between items-center gap-x-4">
-          <UserButton />
+        <div className="flex gap-x-5 items-center justify-between">
+          <div className="flex justify-between items-center gap-x-4">
+            <HoverCard>
+              <HoverCardTrigger>
+                <Button
+                  variant={"ghost"}
+                  size={"icon"}
+                  className="p-2 bg-white flex items-center jc hover:opacity-75 transition"
+                >
+                  <p className="text-black text-xl font-extrabold">?</p>
+                </Button>
+              </HoverCardTrigger>
+              <HoverCardContent>
+                This is a free project developed{" "}
+                <Link
+                  target="_blank"
+                  href="https://www.linkedin.com/in/samikhan73"
+                >
+                  Samiullah
+                </Link>{" "}
+                by and designed and documented by{" "}
+                <Link
+                  target="_blank"
+                  href="https://www.linkedin.com/in/syedsyab/"
+                >
+                  Syed Syab
+                </Link>{" "}
+                for{" "}
+                <Link
+                  target="_blank"
+                  href="https://www.linkedin.com/company/ineuron-ai/mycompany/"
+                >
+                  iNeuron.ai
+                </Link>
+              </HoverCardContent>
+            </HoverCard>
+          </div>
+          <div className="flex justify-between items-center gap-x-4">
+            <UserButton />
+          </div>
         </div>
       </div>
       {children}
