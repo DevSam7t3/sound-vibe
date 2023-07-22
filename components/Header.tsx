@@ -74,7 +74,7 @@ const Header = ({ children, className }: Props) => {
             size={"icon"}
             className="p-2 bg-white flex items-center jc hover:opacity-75 transition"
           >
-            <UploadModal loading={loading} setLoading={setLoading} />
+            <UploadModal />
           </Button>
         </div>
         <div className="flex justify-between items-center gap-x-4">
