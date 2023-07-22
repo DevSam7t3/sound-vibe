@@ -100,6 +100,7 @@ const Header = ({ children, className }: Props) => {
                 <Link
                   target="_blank"
                   href="https://www.linkedin.com/in/samikhan73"
+                  className="underline"
                 >
                   Samiullah
                 </Link>{" "}
@@ -107,6 +108,7 @@ const Header = ({ children, className }: Props) => {
                 <Link
                   target="_blank"
                   href="https://www.linkedin.com/in/syedsyab/"
+                  className="underline"
                 >
                   Syed Syab
                 </Link>{" "}
@@ -114,6 +116,7 @@ const Header = ({ children, className }: Props) => {
                 <Link
                   target="_blank"
                   href="https://www.linkedin.com/company/ineuron-ai/mycompany/"
+                  className="underline"
                 >
                   iNeuron.ai
                 </Link>
