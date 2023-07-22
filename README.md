@@ -15,7 +15,7 @@ I'm a full stack web developer...
 ## 🔗 Links
 [![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://devsam.site/)
 [![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/samikhan73)
-
+[![buymeacoffee](https://img.shields.io/badge/buy_me_a_coffee-FFDD00?style=for-the-badge&logo=buymeacoffee&logoColor=black)](https://www.buymeacoffee.com/devsam7t3)
 
 ## Demo
 
@@ -70,7 +70,7 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 ## Documentation
 
-[Documentation](https://linktodocumentation)
+[Documentation](https://raw.githubusercontent.com/DevSam7t3/sound-vibe/main/public/files/HLD.pdf)
 
 
 ## Environment Variables
