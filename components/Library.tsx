@@ -3,7 +3,6 @@
 import useOnPlay from "@/hooks/useOnPlay";
 import { Song } from "@/types/types";
 import { ListMusic } from "lucide-react";
-import { useState } from "react";
 
 import MediaItem from "./MediaItem";
 import UploadModal from "./UploadModal";
@@ -14,7 +13,6 @@ interface LibraryProps {
 
 const Library: React.FC<LibraryProps> = ({ songs }) => {
   const onPlay = useOnPlay(songs);
-  const [loading, setLoading] = useState<boolean>(false);
 
   return (
     <div className="flex flex-col">
@@ -25,7 +23,7 @@ const Library: React.FC<LibraryProps> = ({ songs }) => {
         </div>
 
         {/* modal for uploading songs  */}
-        <UploadModal loading={loading} setLoading={setLoading} />
+        <UploadModal />
       </div>
       <div className="flex flex-col gap-y-2 mt-4 px-3">
         {songs.map((item) => (

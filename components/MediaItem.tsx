@@ -49,12 +49,7 @@ const MediaItem: React.FC<MediaItemProps> = ({ data, onClick }) => {
           overflow-hidden
         "
       >
-        <Image
-          fill
-          src={imageUrl || "/images/music-placeholder.png"}
-          alt="MediaItem"
-          className="object-cover"
-        />
+        <Image fill src={imageUrl} alt="MediaItem" className="object-cover" />
       </div>
       <div className="flex flex-col gap-y-1 overflow-hidden">
         <p className="text-white truncate">{data.title}</p>

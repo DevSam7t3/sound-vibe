@@ -1,3 +1,4 @@
+import { ErrorMessage } from "@hookform/error-message";
 import { Plus } from "lucide-react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import uniqid from "uniqid";
@@ -5,7 +6,6 @@ import uniqid from "uniqid";
 import supabase from "@/lib/db";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction } from "react";
 import { Button } from "./ui/button";
 import {
   Dialog,
@@ -20,13 +20,13 @@ import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { useToast } from "./ui/use-toast";
 
-interface UploadModalProps {
-  loading: boolean;
-  setLoading: Dispatch<SetStateAction<boolean>>;
-}
-
-const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
-  const { register, handleSubmit, reset } = useForm<FieldValues>({
+const UploadModal: React.FC = () => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<FieldValues>({
     defaultValues: {
       author: "",
       title: "",
@@ -42,21 +42,19 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
   const onSubmit: SubmitHandler<FieldValues> = async (values, event) => {
     event!.preventDefault();
     try {
-      console.log("started");
-
-      setLoading(true);
-
+      let imageUploadedUrl;
       const imageFile = values.image?.[0];
       const songFile = values.song?.[0];
 
-      if (!imageFile || !songFile || !user) {
-        toast({
-          title: "Missing Fields",
-          description: "All fields are required",
-          variant: "destructive",
-        });
+      if (!songFile || !user) {
+        // toast({
+        //   title: "Missing Fields",
+        //   description: "All fields are required",
+        //   variant: "destructive",
+        // });
         return;
       }
+
       // upload song
       const uniqueId = uniqid();
       const { data: songData, error: songError } = await supabase.storage
@@ -71,7 +69,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
         );
 
       if (songError) {
-        setLoading(false);
         return toast({
           title: "Failed To Upload",
           description: "Failed to upload song please try again",
@@ -80,24 +77,26 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
       }
 
       // upload image
-      const { data: imageData, error: imageError } = await supabase.storage
-        .from("images")
-        .upload(
-          `image-${values.title.replace(" ", "-").toLowerCase()}-${uniqueId}`,
-          imageFile,
-          {
-            cacheControl: "3600",
-            upsert: false,
-          }
-        );
+      if (imageFile) {
+        const { data: imageData, error: imageError } = await supabase.storage
+          .from("images")
+          .upload(
+            `image-${values.title.replace(" ", "-").toLowerCase()}-${uniqueId}`,
+            imageFile,
+            {
+              cacheControl: "3600",
+              upsert: false,
+            }
+          );
+        imageUploadedUrl = imageData?.path;
 
-      if (imageError) {
-        setLoading(false);
-        return toast({
-          title: "Failed To Upload",
-          description: "Failed to upload image please try again",
-          variant: "destructive",
-        });
+        if (imageError) {
+          return toast({
+            title: "Failed To Upload",
+            description: "Failed to upload image please try again",
+            variant: "destructive",
+          });
+        }
       }
 
       // add to database
@@ -105,12 +104,11 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
         user_id: user?.id,
         title: values.title,
         author: values.author,
-        image_path: imageData.path,
+        image_path: imageUploadedUrl,
         song_path: songData.path,
       });
 
       if (supabaseError) {
-        setLoading(false);
         return toast({
           title: supabaseError.message,
           variant: "destructive",
@@ -118,7 +116,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
       }
 
       router.refresh();
-      setLoading(false);
       toast({
         title: "song uploaded",
       });
@@ -128,8 +125,6 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
         title: "Something went wrong",
         variant: "destructive",
       });
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -148,53 +143,87 @@ const UploadModal: React.FC<UploadModalProps> = ({ loading, setLoading }) => {
         </DialogHeader>
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="title" className="text-right">
-                Title
-              </Label>
+            {/* title field */}
+            <div className="flex flex-col justify-center items-start">
+              <div className="flex items-center">
+                <Label htmlFor="title" className="mr-5">
+                  Title
+                </Label>
+                <ErrorMessage
+                  errors={errors}
+                  name="title"
+                  render={({ message }) => (
+                    <p className="text-red-600 text-sm">({message})</p>
+                  )}
+                />
+              </div>
               <Input
                 id="title"
-                {...register("title", { required: true })}
+                {...register("title", { required: "Title is required." })}
                 className="col-span-3"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="author" className="text-right">
-                Author
-              </Label>
+            {/* author field */}
+            <div className="flex flex-col justify-center items-start">
+              <div className="flex items-center">
+                <Label htmlFor="author" className="mr-5">
+                  Author
+                </Label>
+                <ErrorMessage
+                  errors={errors}
+                  name="author"
+                  render={({ message }) => (
+                    <p className="text-red-600 text-sm">({message})</p>
+                  )}
+                />
+              </div>
               <Input
                 id="author"
-                {...register("author", { required: true })}
-                className="col-span-3"
+                {...register("author", { required: "Author is required." })}
+                className="flex-1"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="song" className="text-right">
-                Song
-              </Label>
+            {/* song field */}
+            <div className="flex flex-col justify-center items-start">
+              <div className="flex items-center">
+                <Label htmlFor="song" className="mr-5">
+                  Song
+                </Label>
+                <ErrorMessage
+                  errors={errors}
+                  name="song"
+                  render={({ message }) => (
+                    <p className="text-red-600 text-sm">({message})</p>
+                  )}
+                />
+              </div>
               <Input
                 accept=".mp3"
                 type="file"
                 id="song"
-                {...register("song", { required: true })}
+                {...register("song", { required: "Song is required." })}
                 className="col-span-3"
               />
             </div>
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="image" className="text-right">
-                Image
-              </Label>
+            {/* image field */}
+            <div className="flex flex-col justify-center items-start">
+              <div>
+                <Label htmlFor="image" className="mr-1">
+                  Image
+                </Label>
+                <span className="text-sm text-gray-500">(optional)</span>
+              </div>
               <Input
                 accept="image/*"
                 type="file"
                 id="image"
-                {...register("image", { required: true })}
+                {...register("image")}
                 className="col-span-3"
               />
             </div>
           </div>
           <DialogFooter>
-            <Button isLoading={loading} type="submit">
+            <Button isLoading={isSubmitting} type="submit">
               Upload
             </Button>
           </DialogFooter>

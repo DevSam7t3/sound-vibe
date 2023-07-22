@@ -2,15 +2,15 @@ import supabase from "@/lib/db";
 import { Song } from "@/types/types";
 
 const useLoadImage = (song: Song) => {
-  if (!song) {
-    return null;
+  if (!song || song.image_path === null) {
+    return "/download.jpg";
   }
 
   const { data: imageData } = supabase.storage
     .from("images")
     .getPublicUrl(song.image_path);
 
-  if (imageData.publicUrl) return imageData.publicUrl;
+  return imageData.publicUrl;
 };
 
 export default useLoadImage;
