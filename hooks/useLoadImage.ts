@@ -2,7 +2,7 @@ import supabase from "@/lib/db";
 import { Song } from "@/types/types";
 
 const useLoadImage = (song: Song) => {
-  if (!song || song.image_path === null) {
+  if (!song || !song.image_path) {
     return "/download.jpg";
   }
 
